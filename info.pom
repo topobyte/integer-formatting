@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <name>Integer Formatting</name>
+  <description>Utilities for formatting Integers as hex / octal / binary</description>
+  <url>https://github.com/topobyte/integer-formatting</url>
+</project>
