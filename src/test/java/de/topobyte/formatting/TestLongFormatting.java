@@ -61,18 +61,18 @@ public class TestLongFormatting
 
 	private void formatAndCheck(long i)
 	{
-		formatAndCheckLower(i);
-		formatAndCheckUpper(i);
+		formatAndCheckLowerHex(i);
+		formatAndCheckUpperHex(i);
 	}
 
-	private void formatAndCheckLower(long i)
+	private void formatAndCheckLowerHex(long i)
 	{
 		String ours = IntegerFormatting.longToHexString(i, Case.Lowercase);
 		String theirs = String.format("%x", i);
 		Assert.assertEquals(theirs, ours);
 	}
 
-	private void formatAndCheckUpper(long i)
+	private void formatAndCheckUpperHex(long i)
 	{
 		String ours = IntegerFormatting.longToHexString(i, Case.Uppercase);
 		String theirs = String.format("%X", i);
