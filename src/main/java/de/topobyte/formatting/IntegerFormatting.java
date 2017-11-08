@@ -267,7 +267,7 @@ public class IntegerFormatting
 	 * @see #longToUnsignedString(long, int)
 	 * @since JDK 1.0.2
 	 */
-	public static String longToBinaryString(long i, Case c)
+	public static String longToBinaryString(long i)
 	{
 		return longToUnsignedString(i, 1, digits);
 	}

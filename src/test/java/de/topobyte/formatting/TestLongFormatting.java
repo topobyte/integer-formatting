@@ -63,6 +63,8 @@ public class TestLongFormatting
 	{
 		formatAndCheckLowerHex(i);
 		formatAndCheckUpperHex(i);
+		formatAndCheckOctal(i);
+		formatAndCheckBinary(i);
 	}
 
 	private void formatAndCheckLowerHex(long i)
@@ -76,6 +78,20 @@ public class TestLongFormatting
 	{
 		String ours = IntegerFormatting.longToHexString(i, Case.Uppercase);
 		String theirs = String.format("%X", i);
+		Assert.assertEquals(theirs, ours);
+	}
+
+	private void formatAndCheckOctal(long i)
+	{
+		String ours = IntegerFormatting.longToOctalString(i);
+		String theirs = String.format("%o", i);
+		Assert.assertEquals(theirs, ours);
+	}
+
+	private void formatAndCheckBinary(long i)
+	{
+		String ours = IntegerFormatting.longToBinaryString(i);
+		String theirs = Long.toBinaryString(i);
 		Assert.assertEquals(theirs, ours);
 	}
 

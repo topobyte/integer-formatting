@@ -63,6 +63,8 @@ public class TestIntFormatting
 	{
 		formatAndCheckLowerHex(i);
 		formatAndCheckUpperHex(i);
+		formatAndCheckOctal(i);
+		formatAndCheckBinary(i);
 	}
 
 	private void formatAndCheckLowerHex(int i)
@@ -78,4 +80,19 @@ public class TestIntFormatting
 		String theirs = String.format("%X", i);
 		Assert.assertEquals(theirs, ours);
 	}
+
+	private void formatAndCheckOctal(int i)
+	{
+		String ours = IntegerFormatting.intToOctalString(i);
+		String theirs = String.format("%o", i);
+		Assert.assertEquals(theirs, ours);
+	}
+
+	private void formatAndCheckBinary(int i)
+	{
+		String ours = IntegerFormatting.intToBinaryString(i);
+		String theirs = Integer.toBinaryString(i);
+		Assert.assertEquals(theirs, ours);
+	}
+
 }
