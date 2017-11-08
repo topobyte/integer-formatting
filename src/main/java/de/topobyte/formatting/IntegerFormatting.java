@@ -286,7 +286,11 @@ public class IntegerFormatting
 			i >>>= shift;
 		} while (i != 0);
 
-		return new String(buf, charPos, (32 - charPos));
+		// This does not work with JSweet
+		// return new String(buf, charPos, (32 - charPos));
+		char[] copy = new char[32 - charPos];
+		System.arraycopy(buf, charPos, copy, 0, copy.length);
+		return new String(copy);
 	}
 
 	/**
