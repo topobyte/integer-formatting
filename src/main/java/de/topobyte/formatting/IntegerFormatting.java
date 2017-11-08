@@ -40,12 +40,25 @@ public class IntegerFormatting
 {
 
 	/**
-	 * All possible chars for representing a number as a String
+	 * All possible chars for representing a number as a String (lowercase)
 	 */
 	final static char[] digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
 			'9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 			'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
 			'z' };
+
+	/**
+	 * All possible chars for representing a number as a String (uppercase)
+	 */
+	final static char[] DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
+			'9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+			'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+			'Z' };
+
+	private static char[] table(Case c)
+	{
+		return c == Case.Uppercase ? DIGITS : digits;
+	}
 
 	/**
 	 * Returns a string representation of the integer argument as an unsigned
@@ -77,9 +90,9 @@ public class IntegerFormatting
 	 *         represented by the argument in hexadecimal (base&nbsp;16).
 	 * @since JDK1.0.2
 	 */
-	public static String intToHexString(int i)
+	public static String intToHexString(int i, Case c)
 	{
-		return intToUnsignedString(i, 4);
+		return intToUnsignedString(i, 4, table(c));
 	}
 
 	/**
@@ -111,7 +124,7 @@ public class IntegerFormatting
 	 */
 	public static String intToOctalString(int i)
 	{
-		return intToUnsignedString(i, 3);
+		return intToUnsignedString(i, 3, digits);
 	}
 
 	/**
@@ -137,7 +150,7 @@ public class IntegerFormatting
 	 */
 	public static String intToBinaryString(int i)
 	{
-		return intToUnsignedString(i, 1);
+		return intToUnsignedString(i, 1, digits);
 	}
 
 	/**
@@ -179,9 +192,9 @@ public class IntegerFormatting
 	 * @see #longToUnsignedString(long, int)
 	 * @since JDK 1.0.2
 	 */
-	public static String longToHexString(long i)
+	public static String longToHexString(long i, Case c)
 	{
-		return longToUnsignedString(i, 4);
+		return longToUnsignedString(i, 4, table(c));
 	}
 
 	/**
@@ -220,7 +233,7 @@ public class IntegerFormatting
 	 */
 	public static String longToOctalString(long i)
 	{
-		return longToUnsignedString(i, 3);
+		return longToUnsignedString(i, 3, digits);
 	}
 
 	/**
@@ -254,22 +267,22 @@ public class IntegerFormatting
 	 * @see #longToUnsignedString(long, int)
 	 * @since JDK 1.0.2
 	 */
-	public static String longToBinaryString(long i)
+	public static String longToBinaryString(long i, Case c)
 	{
-		return longToUnsignedString(i, 1);
+		return longToUnsignedString(i, 1, digits);
 	}
 
 	/**
 	 * Convert the integer to an unsigned number.
 	 */
-	private static String intToUnsignedString(int i, int shift)
+	private static String intToUnsignedString(int i, int shift, char[] table)
 	{
 		char[] buf = new char[32];
 		int charPos = 32;
 		int radix = 1 << shift;
 		int mask = radix - 1;
 		do {
-			buf[--charPos] = digits[i & mask];
+			buf[--charPos] = table[i & mask];
 			i >>>= shift;
 		} while (i != 0);
 
@@ -285,14 +298,15 @@ public class IntegerFormatting
 	 *            the log2 of the base to format in (4 for hex, 3 for octal, 1
 	 *            for binary)
 	 */
-	private static String longToUnsignedString(long val, int shift)
+	private static String longToUnsignedString(long val, int shift,
+			char[] table)
 	{
 		// assert shift > 0 && shift <=5 : "Illegal shift value";
 		int mag = 64 /* Long.SIZE */ - numberOfLeadingZeros(val);
 		int chars = Math.max(((mag + (shift - 1)) / shift), 1);
 		char[] buf = new char[chars];
 
-		formatUnsignedLong(val, shift, buf, 0, chars);
+		formatUnsignedLong(val, shift, buf, 0, chars, table);
 		return new String(buf);
 	}
 
@@ -313,13 +327,13 @@ public class IntegerFormatting
 	 * @return the lowest character location used
 	 */
 	private static int formatUnsignedLong(long val, int shift, char[] buf,
-			int offset, int len)
+			int offset, int len, char[] table)
 	{
 		int charPos = len;
 		int radix = 1 << shift;
 		int mask = radix - 1;
 		do {
-			buf[offset + --charPos] = digits[((int) val) & mask];
+			buf[offset + --charPos] = table[((int) val) & mask];
 			val >>>= shift;
 		} while (val != 0 && charPos > 0);
 
